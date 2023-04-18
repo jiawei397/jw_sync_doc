@@ -10,10 +10,10 @@ async function getBookNodes() {
 
   const children = transferTreeToBookNodes(tree, globals.bookId);
 
-  await Deno.writeTextFile(
-    "public/books.json",
-    JSON.stringify(children, null, 2),
-  );
+  // await Deno.writeTextFile(
+  //   "public/books.json",
+  //   JSON.stringify(children, null, 2),
+  // );
   return children;
 }
 
