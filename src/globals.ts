@@ -1,9 +1,11 @@
+import { loadEnv } from "../deps.ts";
+
 export interface Config {
   baseURL: string;
   bookId: string;
   jsDocDir: string;
   authorization: string;
-  "user-agent": string;
+  userAgent: string;
   tags?: string[];
   group?: string;
   userId?: string;
@@ -17,14 +19,14 @@ type RequiredKeys =
   | "bookId"
   | "jsDocDir"
   | "authorization"
-  | "user-agent";
+  | "userAgent";
 
 const config: Config = {
   baseURL: "",
   bookId: "",
   jsDocDir: "",
   authorization: "",
-  "user-agent": "",
+  userAgent: "",
   // 上面的是必需的配置
   userId: undefined, // 可选
   group: undefined,
@@ -32,6 +34,7 @@ const config: Config = {
   version: undefined, //"1.0.0",
 };
 
+loadEnv({ export: true });
 Object.keys(config).forEach((key) => {
   const val = Deno.env.get(key);
   if (val) {
@@ -47,7 +50,7 @@ const requiredKeys: RequiredKeys[] = [
   "bookId",
   "jsDocDir",
   "authorization",
-  "user-agent",
+  "userAgent",
 ];
 for (const key of requiredKeys) {
   if (!config[key]) {

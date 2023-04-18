@@ -7,7 +7,7 @@ const ajax = new Ajax();
 
 ajax.interceptors.request.use(function (mergedConfig) {
   mergedConfig.headers = mergedConfig.headers || {};
-  mergedConfig.headers["user-agent"] = globals["user-agent"];
+  mergedConfig.headers["user-agent"] = globals.userAgent;
   mergedConfig.headers["authorization"] = globals.authorization;
   return mergedConfig;
 }, function (err) {
