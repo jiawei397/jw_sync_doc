@@ -1,0 +1,19 @@
+{
+  "name": "jw_sync_doc",
+  "version": "0.0.1",
+  "lock": false,
+  "tasks": {
+    "dev": "deno task start",
+    "start": "NPM_CONFIG_REGISTRY=https://registry.npmmirror.com deno run --allow-net --allow-env --allow-write --allow-read  --unstable src/main.ts"
+  },
+  "fmt": {
+    "files": {
+      "include": ["src/"]
+    }
+  },
+  "lint": {
+    "files": {
+      "include": ["src/"]
+    }
+  }
+}
