@@ -1,6 +1,6 @@
 {
   "name": "jw_sync_doc",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "lock": false,
   "tasks": {
     "dev": "deno task start",
