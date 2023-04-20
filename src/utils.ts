@@ -42,28 +42,32 @@ export async function transferHtmlToMarkdown(htmlPath: string) {
 }
 
 export function getTree(html: string): TreeObj {
-  const tree: Record<string, TreeNode[]> = {};
   const $ = load(html);
-  $("nav > *").each((_i, el) => {
-    const $el = $(el);
-    const tagName = $el.prop("tagName").toLowerCase();
-    const text = $el.text().trim();
-    if (tagName === "h3") {
-      tree[text] = [];
-    } else if (tagName === "ul") {
-      const parent = Object.keys(tree)[Object.keys(tree).length - 1];
-      tree[parent] = [];
-      $el.children().each((_j, li) => {
-        const $li = $(li);
-        const liText = $li.text().trim();
-        const liHref = $li.children("a").attr("href")!;
-        tree[parent].push({ text: liText, href: liHref });
-      });
+  const tree: Record<string, TreeNode[]> = {};
+  $("h3").each((_i, elem) => {
+    const key = $(elem).text().trim();
+    if (!key) {
+      return;
     }
+    const arr: TreeNode[] = [];
+
+    $(elem).nextUntil("h3", "ul").find("a").each((_j, anchor) => {
+      const text = $(anchor).text().trim();
+      const href = $(anchor).attr("href") || "";
+      arr.push({ text, href });
+    });
+
+    tree[key] = arr;
   });
 
   // Deno.writeTextFile("aa.json", JSON.stringify(tree, null, 2));
-  return tree as unknown as TreeObj;
+  const arr = Object.values(tree);
+  // 之所以这么搞，是因为jsoc可能会输出中英文两种格式
+  return {
+    Namespaces: arr[0],
+    Classes: arr[1],
+    Global: arr[2],
+  };
 }
 
 export function createMongoId() {

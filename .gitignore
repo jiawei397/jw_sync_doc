@@ -1,3 +1,4 @@
 .env
 jsdoc-html
 .DS_Store
+*.json
