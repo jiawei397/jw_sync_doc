@@ -10,6 +10,7 @@ export interface Config {
   group?: string; // 文章的组，默认是书籍所在组
   userId?: string; // 是否要转移作者
   version?: string; // 新建版本
+  needDefaultGitVersion?: boolean;
 }
 
 type ConfigKey = keyof Config;
@@ -35,13 +36,20 @@ const config: Config = {
 };
 
 loadEnv({ export: true });
+
+if (
+  Deno.env.get("needDefaultGitVersion") === "true" && !Deno.env.get("version")
+) {
+  config.version = Deno.env.get("CI_COMMIT_TAG");
+}
+
 Object.keys(config).forEach((key) => {
   const val = Deno.env.get(key);
   if (val) {
     if (key === "tags") {
       config[key] = val.split(",");
     } else {
-      config[key as Exclude<ConfigKey, "tags">] = val;
+      config[key as Exclude<ConfigKey, "tags" | "needDefaultGitVersion">] = val;
     }
   }
 });
