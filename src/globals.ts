@@ -1,15 +1,15 @@
 import { loadEnv } from "../deps.ts";
 
 export interface Config {
-  baseURL: string;
-  bookId: string;
-  jsDocDir: string;
-  authorization: string;
-  userAgent: string;
-  tags?: string[];
-  group?: string;
-  userId?: string;
-  version?: string;
+  baseURL: string; // 哪个环境
+  bookId: string; // 书籍的id
+  jsDocDir: string; // js文档html文件的目录，如果是根目录，则是./
+  authorization: string; // 授权的token，下文会说
+  userAgent: string; // 与授权token结合使用，下文会说
+  tags?: string[]; // 标签，默认为空
+  group?: string; // 文章的组，默认是书籍所在组
+  userId?: string; // 是否要转移作者
+  version?: string; // 新建版本
 }
 
 type ConfigKey = keyof Config;
@@ -24,7 +24,7 @@ type RequiredKeys =
 const config: Config = {
   baseURL: "",
   bookId: "",
-  jsDocDir: "",
+  jsDocDir: "./",
   authorization: "",
   userAgent: "",
   // 上面的是必需的配置
